@@ -35,6 +35,7 @@ func NewManualStep(id, name, instructions string) *ManualStep {
 // TODO: Refactor to support different UI types.
 func (m *ManualStep) Run(run *core.Run) error {
 	// Display instructions to the user.
+	fmt.Println("\n--------------------------------------------------")
 	fmt.Printf("[Manual Step] %s\n\n", m.Name())
 	if m.Instructions != "" {
 		fmt.Println(m.Instructions)
