@@ -1,0 +1,15 @@
+name: Demo Runbook
+description: |
+  This is a demo runbook for showing the differences between manual and shell steps.
+steps:
+  - id: manual
+    name: Manual Step
+    type: manual
+    instructions: |
+      This is a manual step. You need to perform this step manually.
+
+  - id: shell
+    name: Shell Step
+    type: shell
+    command: |
+      echo "This is a shell step. It will be executed automatically."
