@@ -4,6 +4,7 @@ import (
 	"os"
 	"testing"
 
+	"donot/pkg/step"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
@@ -48,4 +49,48 @@ Additional information about the runbook
 	for i, step := range steps {
 		assert.Equal(t, expectedSteps[i], step.Render("CLI"))
 	}
+}
+
+func TestMarkdown_Steps(t *testing.T) {
+	// Create a temporary markdown file for testing
+	content := `
+# Runbook
+
+1. Step 1: Initialize the environment
+   Ensure all prerequisites are installed.
+2. Step 2: Do something
+   Additional information about step 2
+3. Step 3: Do something else
+   Additional information about step 3
+`
+	file, err := os.CreateTemp("", "runbook*.md")
+	require.NoError(t, err)
+	defer os.Remove(file.Name())
+
+	_, err = file.Write([]byte(content))
+	require.NoError(t, err)
+	file.Close()
+
+	// Parse the markdown file
+	md := NewMarkdown()
+	md.Parse(file.Name())
+
+	// Validate the parsed steps
+	steps := md.Steps()
+	require.Equal(t, 3, len(steps))
+
+	step1 := steps[0].(*step.ManualStep)
+	assert.Equal(t, "step-1", step1.ID())
+	assert.Equal(t, "Step 1: Initialize the environment", step1.Name())
+	assert.Equal(t, "Ensure all prerequisites are installed.", step1.Instructions)
+
+	step2 := steps[1].(*step.ManualStep)
+	assert.Equal(t, "step-2", step2.ID())
+	assert.Equal(t, "Step 2: Do something", step2.Name())
+	assert.Equal(t, "Additional information about step 2", step2.Instructions)
+
+	step3 := steps[2].(*step.ManualStep)
+	assert.Equal(t, "step-3", step3.ID())
+	assert.Equal(t, "Step 3: Do something else", step3.Name())
+	assert.Equal(t, "Additional information about step 3", step3.Instructions)
 }
