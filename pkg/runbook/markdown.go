@@ -95,9 +95,9 @@ func extractText(node *blackfriday.Node) (text string, code string) {
 	var codeBlock bytes.Buffer
 	node.Walk(func(n *blackfriday.Node, entering bool) blackfriday.WalkStatus {
 		literal := bytes.TrimSpace(n.Literal)
-		if n.Type == blackfriday.Code {
+		if n.Type == blackfriday.Code || n.Type == blackfriday.CodeBlock {
 			codeBlock.Write(literal)
-			return blackfriday.SkipChildren
+			return blackfriday.GoToNext
 		}
 		if len(literal) > 0 {
 			buffer.Write(literal)
