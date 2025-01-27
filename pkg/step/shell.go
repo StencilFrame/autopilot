@@ -33,7 +33,9 @@ func NewShellStep(id, name, command string) *ShellStep {
 
 // Run executes the shell step logic.
 func (s *ShellStep) Run(run *core.Run) error {
-	fmt.Printf("[Shell Step] %s: Running command: %s\n", s.Name(), s.Command)
+	fmt.Println("\n--------------------------------------------------")
+	fmt.Printf("[Shell Step] %s\n", s.Name())
+	fmt.Printf("Running command: %s\n", s.Command)
 
 	// Execute the shell command.
 	cmd := exec.Command("sh", "-c", s.Command)
@@ -54,7 +56,6 @@ func (s *ShellStep) Run(run *core.Run) error {
 
 // SupportsUI indicates if the shell step supports a specific UI type.
 func (s *ShellStep) SupportsUI(ui UIType) bool {
-	// Shell steps support all UIs (CLI, Web, Slack).
 	return s.uis[ui] != nil
 }
 
@@ -69,12 +70,10 @@ func (s *ShellStep) Render(ui UIType) string {
 
 // renderCLI renders the shell step for the command-line interface.
 func (s *ShellStep) renderCLI(step Step) string {
-	shellStep := step.(*ShellStep)
-	return fmt.Sprintf("Shell Step: %s\nCommand: %s", shellStep.Name(), shellStep.Command)
+	return fmt.Sprintf("[Shell Step] %s\nCommand: %s", s.Name(), s.Command)
 }
 
 // renderWeb renders the shell step for the web interface.
 func (s *ShellStep) renderWeb(step Step) string {
-	shellStep := step.(*ShellStep)
-	return fmt.Sprintf("Shell Step: %s\nCommand: %s", shellStep.Name(), shellStep.Command)
+	return fmt.Sprintf("<h2>Shell Step: %s</h2><p>Command: <pre>%s</pre></p>", s.Name(), s.Command)
 }

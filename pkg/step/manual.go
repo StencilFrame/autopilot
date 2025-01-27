@@ -54,8 +54,16 @@ func (m *ManualStep) Run(run *core.Run) error {
 
 // SupportsUI indicates if the manual step supports a specific UI type.
 func (m *ManualStep) SupportsUI(ui UIType) bool {
-	// Manual steps support CLI and Web UIs by default.
 	return m.uis[ui] != nil
+}
+
+// Render renders the manual step for a specific UI type.
+func (m *ManualStep) Render(ui UIType) string {
+	if f, ok := m.uis[ui]; ok {
+		return f(m)
+	}
+
+	return fmt.Sprintf("Manual Step: %s\n%s", m.Name(), m.Instructions)
 }
 
 // renderCLI renders the manual step for the command-line interface.
@@ -70,13 +78,4 @@ func (m *ManualStep) renderCLI(step Step) string {
 // renderWeb renders the manual step for the web interface.
 func (m *ManualStep) renderWeb(step Step) string {
 	return fmt.Sprintf("<h2>Manual Step: %s</h2><p>%s</p>", m.Name(), m.Instructions)
-}
-
-// Render renders the manual step for a specific UI type.
-func (m *ManualStep) Render(ui UIType) string {
-	if f, ok := m.uis[ui]; ok {
-		return f(m)
-	}
-
-	return fmt.Sprintf("Manual Step: %s\n%s", m.Name(), m.Instructions)
 }

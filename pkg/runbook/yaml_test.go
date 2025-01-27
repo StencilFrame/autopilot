@@ -101,12 +101,12 @@ steps:
 	assert.Equal(t, "Initialize the environment", step1.Name())
 	assert.Equal(t, "Ensure all prerequisites are installed.", step1.Instructions)
 
-	// TODO: Implement shell and input steps
+	step2 := steps[1].(*step.ShellStep)
+	assert.Equal(t, "step-2", step2.ID())
+	assert.Equal(t, "Run setup script", step2.Name())
+	assert.Equal(t, "./setup.sh", step2.Command)
 
-	// step2 := steps[1].(*step.ShellStep)
-	// assert.Equal(t, "step-2", step2.ID())
-	// assert.Equal(t, "Run setup script", step2.Name())
-	// assert.Equal(t, "./setup.sh", step2.Command)
+	// TODO: Implement input step
 
 	// step3 := steps[2].(*step.InputStep)
 	// assert.Equal(t, "step-3", step3.ID())

@@ -74,7 +74,8 @@ func (y *YAML) Steps() []step.Step {
 			step := step.NewManualStep(s.ID, s.Name, s.Fields.(YAMLManualStep).Instructions)
 			steps[i] = step
 		case "shell":
-			// TODO: Implement shell step
+			step := step.NewShellStep(s.ID, s.Name, s.Fields.(YAMLShellStep).Command)
+			steps[i] = step
 		case "input":
 			// TODO: Implement input step
 		default:

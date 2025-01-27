@@ -43,8 +43,12 @@ func (m *Markdown) Parse(fileName string) []step.Step {
 			// Iterate over each list item in the ordered list.
 			for item := node.FirstChild; item != nil; item = item.Next {
 				// Extract the text content of the list item.
-				text := extractText(item)
-				m.AddStep(text)
+				text, code := extractText(item)
+				if code != "" {
+					m.AddCodeStep(text, code)
+				} else {
+					m.AddManualStep(text)
+				}
 			}
 			// Stop processing the AST because we found the first ordered list.
 			return blackfriday.Terminate
@@ -55,8 +59,15 @@ func (m *Markdown) Parse(fileName string) []step.Step {
 	return m.steps
 }
 
+// AddCodeStep adds a new code step to the runbook.
+func (m *Markdown) AddCodeStep(name, code string) {
+	stepId := fmt.Sprintf("step-%d", len(m.steps)+1)
+	codeStep := step.NewShellStep(stepId, name, code)
+	m.steps = append(m.steps, codeStep)
+}
+
 // AddStep adds a new step to the runbook.
-func (m *Markdown) AddStep(raw string) {
+func (m *Markdown) AddManualStep(raw string) {
 	stepId := fmt.Sprintf("step-%d", len(m.steps)+1)
 	s := strings.SplitN(raw, "\n", 2)
 	name := s[0]
@@ -79,10 +90,15 @@ func (m *Markdown) Steps() []step.Step {
 }
 
 // extractText helper function for extracting plain text from a node
-func extractText(node *blackfriday.Node) string {
+func extractText(node *blackfriday.Node) (text string, code string) {
 	var buffer bytes.Buffer
+	var codeBlock bytes.Buffer
 	node.Walk(func(n *blackfriday.Node, entering bool) blackfriday.WalkStatus {
 		literal := bytes.TrimSpace(n.Literal)
+		if n.Type == blackfriday.Code {
+			codeBlock.Write(literal)
+			return blackfriday.SkipChildren
+		}
 		if len(literal) > 0 {
 			buffer.Write(literal)
 			buffer.WriteString("\n")
@@ -90,5 +106,5 @@ func extractText(node *blackfriday.Node) string {
 		return blackfriday.GoToNext
 	})
 	buffer.Truncate(buffer.Len() - 1) // Remove the trailing newline
-	return buffer.String()
+	return buffer.String(), codeBlock.String()
 }
