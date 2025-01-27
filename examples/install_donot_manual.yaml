@@ -1,0 +1,45 @@
+name: Installing DoNot
+description: |
+  This is an example runbook for installing DoNot from source.
+  It includes cloning the source repository and building the binary.
+steps:
+  - id: go
+    name: Setup Go
+    type: manual
+    instructions: |
+      Setup Go on your local machine.
+      You can download it from the official website: https://golang.org/dl/
+
+  - id: git
+    name: Setup Git
+    type: manual
+    instructions: |
+      Setup Git on your local machine.
+      You can download it from the official website: https://git-scm.com/downloads
+
+  - id: clone
+    name: Clone the repository
+    type: manual
+    instructions: |
+      Clone the repository to your local machine.
+      ```
+      git clone https://github.com/stencilframe/donot.git
+      ```
+
+  - id: cd
+    name: Change directory
+    type: manual
+    instructions: |
+      Change directory to the cloned repository:
+      ```
+      cd donot
+      ```
+
+  - id: install
+    name: Install DoNot
+    type: manual
+    instructions: |
+      Install DoNot using the following command:
+      ```
+      go install ./pkg/cmd/donot/...
+      ```
