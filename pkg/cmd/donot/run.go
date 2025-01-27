@@ -3,9 +3,11 @@ package main
 import (
 	"donot/pkg/core"
 	"donot/pkg/executor"
-	"donot/pkg/runbook"
+	coreRunbook "donot/pkg/runbook"
+	"donot/pkg/step"
 	"fmt"
 	"os"
+	"path/filepath"
 
 	"github.com/spf13/cobra"
 )
@@ -17,14 +19,28 @@ var runCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		// Parse the runbook file
 		runbookFile := args[0]
-		runbookMd := runbook.NewMarkdown()
-		_ = runbookMd.Parse(runbookFile)
+
+		// Determine the runbook type
+		ext := filepath.Ext(runbookFile)
+		var runbook step.Runbook
+		switch ext {
+		case ".md":
+			runbookMd := coreRunbook.NewMarkdown()
+			_ = runbookMd.Parse(runbookFile)
+			runbook = runbookMd
+		case ".yml", ".yaml":
+			runbookYaml := coreRunbook.NewYAML()
+			_ = runbookYaml.Parse(runbookFile)
+			runbook = runbookYaml
+		default:
+			fmt.Printf("Unsupported runbook type: %s\n", ext)
+		}
 
 		// Create a new run
-		run := core.NewRun("run-" + runbookMd.Name())
+		run := core.NewRun("run-" + runbook.Name())
 
 		// Set up the executor with a CLI observer
-		executor := executor.NewExecutor(run, runbookMd)
+		executor := executor.NewExecutor(run, runbook)
 
 		// Execute the runbook
 		if err := executor.Execute(); err != nil {

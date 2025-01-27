@@ -3,6 +3,9 @@ package runbook
 import (
 	"donot/pkg/step"
 	"fmt"
+	"os"
+
+	"gopkg.in/yaml.v3"
 )
 
 type (
@@ -42,8 +45,19 @@ func NewYAML() *YAML {
 }
 
 // Parse reads a YAML file and extracts the steps.
-func (y *YAML) Parse(fileName string) []YAMLStep {
-	return nil
+func (y *YAML) Parse(fileName string) []step.Step {
+	data, err := os.ReadFile(fileName)
+	if err != nil {
+		panic(err) // TODO: Handle error
+	}
+
+	// Parse the YAML file and populate the steps
+	err = yaml.Unmarshal(data, y)
+	if err != nil {
+		panic(err) // TODO: Handle error
+	}
+
+	return y.Steps()
 }
 
 // Name returns the name of the runbook.
