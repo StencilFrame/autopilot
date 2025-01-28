@@ -1,6 +1,6 @@
-name: Installing DoNot
+name: Installing AutoPilot
 description: |
-  This is an example runbook for installing DoNot from source.
+  This is an example runbook for installing AutoPilot from source.
   It includes cloning the source repository and building the binary.
 steps:
   - id: go
@@ -21,10 +21,10 @@ steps:
     name: Clone the repository
     type: shell
     command: |
-      git clone https://github.com/stencilframe/donot.git /tmp/donot
+      git clone https://github.com/stencilframe/autopilot.git /tmp/autopilot
 
   - id: install
-    name: Install DoNot
+    name: Install AutoPilot
     type: shell
     command: |
-      go install /tmp/donot/pkg/cmd/donot/...
+      go install /tmp/autopilot/pkg/cmd/autopilot/...

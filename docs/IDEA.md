@@ -1,8 +1,8 @@
-# Embracing Gradual Automation: My Journey to Building DoNot
+# Embracing Gradual Automation: My Journey to Building AutoPilot
 
 Hey everyone!
 
-I want to share something that’s been brewing in my mind for a while—the concept of gradual automation and how it inspired me to create DoNot, a tool aimed at transforming the way we approach automating our workflows.
+I want to share something that’s been brewing in my mind for a while—the concept of gradual automation and how it inspired me to create AutoPilot, a tool aimed at transforming the way we approach automating our workflows.
 
 ## My Love Affair with Automation
 
@@ -40,18 +40,16 @@ Dan Slimmon emphasized the importance of gradual automation—a strategy where y
 
     You can share some manual work with your Manager :-) or a colleague so they can work on it while you take care of other high-priority tasks.
 
-## Introducing DoNot: Your Partner in Gradual Automation
+## Introducing AutoPilot: Your Partner in Gradual Automation
 
-[Do Not]hing Scripting Automation.
+Inspired by Dan Slimmon’s insights, I embarked on developing AutoPilot—a tool designed to facilitate gradual automation. The core idea behind AutoPilot is to allow users to define runbooks in Markdown or YAML formats, supporting both manual and shell steps. This flexibility means you can start with a fully manual workflow and incrementally automate the parts that make the most sense for your specific needs.
 
-Inspired by Dan Slimmon’s insights, I embarked on developing DoNot—a tool designed to facilitate gradual automation. The core idea behind DoNot is to allow users to define runbooks in Markdown or YAML formats, supporting both manual and shell steps. This flexibility means you can start with a fully manual workflow and incrementally automate the parts that make the most sense for your specific needs.
-
-### What DoNot Brings to the Table
+### What AutoPilot Brings to the Table
 * Supports Manual and Shell Steps: Begin by outlining your entire workflow with manual steps. As you identify automation opportunities, seamlessly convert those steps into shell commands, reducing manual intervention over time.
-* Manual steps are first-class citizens: DoNot treats manual steps with the same importance as shell steps, ensuring that you have complete control over the automation process.
-* Simple to Use: Define your runbook in Markdown or YAML, and let DoNot handle the rest. The tool is designed to be intuitive and user-friendly, making it easy to get started with gradual automation.
-* Extensible and Customizable: DoNot is designed to grow with your needs. As you become more comfortable with automation, you can expand your runbooks to include more complex step types, conditional logic, and other advanced features. (Work in progress)
-* Open Source: DoNot is an open-source project, meaning you can contribute to its development, suggest new features, or customize it to suit your specific requirements. And esspecially you can fix bugs and issues you encounter. :-)
+* Manual steps are first-class citizens: AutoPilot treats manual steps with the same importance as shell steps, ensuring that you have complete control over the automation process.
+* Simple to Use: Define your runbook in Markdown or YAML, and let AutoPilot handle the rest. The tool is designed to be intuitive and user-friendly, making it easy to get started with gradual automation.
+* Extensible and Customizable: AutoPilot is designed to grow with your needs. As you become more comfortable with automation, you can expand your runbooks to include more complex step types, conditional logic, and other advanced features. (Work in progress)
+* Open Source: AutoPilot is an open-source project, meaning you can contribute to its development, suggest new features, or customize it to suit your specific requirements. And esspecially you can fix bugs and issues you encounter. :-)
 
 ### How It Works
 1.	Define Your Runbook: Start by listing out all the steps in your workflow using Markdown or YAML. Initially, all steps can be manual, allowing you to map out the entire process clearly.
@@ -61,7 +59,7 @@ Inspired by Dan Slimmon’s insights, I embarked on developing DoNot—a tool de
 
 ## A Real-World Example
 
-Let me share a quick example of how gradual automation with DoNot can transform a workflow:
+Let me share a quick example of how gradual automation with AutoPilot can transform a workflow:
 
 Scenario: you have to build a new feature for your application: self serving onboarding of the new workspace for user. The process involves creating records in the SQL database and setting up the index in the NoSQL database.
 
@@ -110,9 +108,9 @@ Variables:
 
 NOTE: having this runbook as a document is already a huge improvement over having nothing, but executing it is still error-prone as you have to keep track of the progress and all variables. Step 3 and 7 share the same variable `{workspace_id}`. If you forget to update it in step 7, you will create an index for the wrong workspace.
 
-With DoNot, you can start automating the steps that are most time-consuming or error-prone. For example, you could automate steps 2, 3, 4, and 5, while leaving steps 1, 6, and 7 as manual tasks. This way, you can ensure that the critical parts of the process are automated, while still maintaining control over the entire workflow.
+With AutoPilot, you can start automating the steps that are most time-consuming or error-prone. For example, you could automate steps 2, 3, 4, and 5, while leaving steps 1, 6, and 7 as manual tasks. This way, you can ensure that the critical parts of the process are automated, while still maintaining control over the entire workflow.
 
-DoNot will track the progress of the execution and all variables, so you don't have to worry about missing a step or updating the wrong variable. It can also show you all the metadata about the execution, so you can easily resume from the last step in case of an interruption.
+AutoPilot will track the progress of the execution and all variables, so you don't have to worry about missing a step or updating the wrong variable. It can also show you all the metadata about the execution, so you can easily resume from the last step in case of an interruption.
 
 As the feature gains traction and you see the need for more automation, you can gradually convert the remaining manual steps into shell commands, making the process more efficient and scalable. And eventually, you can move automation to the fully functional feature of your application.
 
@@ -120,21 +118,21 @@ As the feature gains traction and you see the need for more automation, you can 
 
 Over the years, I’ve seen teams struggle with the rigidity of full automation and the inefficiency of entirely manual processes. Gradual automation offers a balanced approach, marrying the best of both worlds. It ensures that automation enhances productivity without introducing unnecessary complexity or loss of control.
 
-By leveraging DoNot, you can tailor your automation journey to fit your unique needs, ensuring that each step is optimized for maximum efficiency and reliability. It’s about making smart, incremental changes that add up to significant improvements over time.
+By leveraging AutoPilot, you can tailor your automation journey to fit your unique needs, ensuring that each step is optimized for maximum efficiency and reliability. It’s about making smart, incremental changes that add up to significant improvements over time.
 
 ## Join the Journey
 
-I’m incredibly excited about the potential of DoNot to redefine automation practices. But I can’t do it alone—I need your feedback! Whether you’re a seasoned DevOps engineer, an IT professional, or someone curious about workflow automation, your insights are invaluable.
+I’m incredibly excited about the potential of AutoPilot to redefine automation practices. But I can’t do it alone—I need your feedback! Whether you’re a seasoned DevOps engineer, an IT professional, or someone curious about workflow automation, your insights are invaluable.
 
-Check out DoNot on GitHub: [https://github.com/StencilFrame/donot](https://github.com/StencilFrame/donot)
+Check out AutoPilot on GitHub: [https://github.com/StencilFrame/autopilot](https://github.com/StencilFrame/autopilot)
 
 I’d love to hear your thoughts:
 * Do you find the concept of gradual automation valuable?
 * What do you like or dislike about the current features?
-* Are there any features you’re missing that would make DoNot more useful for your daily tasks?
+* Are there any features you’re missing that would make AutoPilot more useful for your daily tasks?
 * What would encourage you to use it regularly in your workflow?
 
-Your feedback will help shape the future of DoNot, ensuring it meets the real-world needs of users like you. Together, let’s make automation smarter, more manageable, and truly beneficial.
+Your feedback will help shape the future of AutoPilot, ensuring it meets the real-world needs of users like you. Together, let’s make automation smarter, more manageable, and truly beneficial.
 
 Thanks for taking the time to read this, and here’s to smarter automation!
 

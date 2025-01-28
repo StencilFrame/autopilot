@@ -1,7 +1,7 @@
 package step
 
 import (
-	"donot/pkg/core"
+	"autopilot/pkg/core"
 	"fmt"
 	"os/exec"
 	"strings"

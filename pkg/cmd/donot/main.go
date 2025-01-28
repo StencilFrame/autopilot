@@ -8,9 +8,9 @@ import (
 )
 
 var rootCmd = &cobra.Command{
-	Use:   "donot",
-	Short: "DoNot is a lightweight runbook executor.",
-	Long: `DoNot allows you to execute runbooks with minimal setup and maximum flexibility.
+	Use:   "autopilot",
+	Short: "AutoPilot is a lightweight runbook executor.",
+	Long: `AutoPilot allows you to execute runbooks with minimal setup and maximum flexibility.
 Inspired by Do Nothing Scripting.`,
 }
 

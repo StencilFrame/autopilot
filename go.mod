@@ -1,4 +1,4 @@
-module donot
+module autopilot
 
 go 1.23.0
 

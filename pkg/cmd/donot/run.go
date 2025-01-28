@@ -1,10 +1,10 @@
 package main
 
 import (
-	"donot/pkg/core"
-	"donot/pkg/executor"
-	coreRunbook "donot/pkg/runbook"
-	"donot/pkg/step"
+	"autopilot/pkg/core"
+	"autopilot/pkg/executor"
+	coreRunbook "autopilot/pkg/runbook"
+	"autopilot/pkg/step"
 	"fmt"
 	"os"
 	"path/filepath"

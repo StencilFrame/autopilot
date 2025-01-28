@@ -1,6 +1,6 @@
 package step
 
-import "donot/pkg/core"
+import "autopilot/pkg/core"
 
 // UIType represents the type of user interface supported by a step.
 type UIType string

@@ -1,8 +1,8 @@
 package executor
 
 import (
-	"donot/pkg/core"
-	"donot/pkg/step"
+	"autopilot/pkg/core"
+	"autopilot/pkg/step"
 	"fmt"
 	"time"
 )

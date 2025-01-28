@@ -1,18 +1,18 @@
-# DoNot - [Do Not]hing Scripting Automation.
+# AutoPilot - Do Nothing Scripting Automation.
 
-DoNot is a tool designed to gradually automate repetitive tasks by defining them in a runbook. Unlike traditional automation tools that require complete automation from the outset, DoNot enables a step-by-step approach, making it easier to transition from manual to automated processes without overwhelming your team or infrastructure.
+AutoPilot is a tool designed to gradually automate repetitive tasks by defining them in a runbook. Unlike traditional automation tools that require complete automation from the outset, AutoPilot enables a step-by-step approach, making it easier to transition from manual to automated processes without overwhelming your team or infrastructure.
 
 Build what matters!
 
 Inspired by [Do Nothing Scripting](https://blog.danslimmon.com/2019/07/15/do-nothing-scripting-the-key-to-gradual-automation) by Dan Slimmon.
 
-If you want to read more about the design and idea behind DoNot, check out the [design document](docs/DESIGN.md) and [idea document](docs/IDEA.md).
+If you want to read more about the design and idea behind AutoPilot, check out the [design document](docs/DESIGN.md) and [idea document](docs/IDEA.md).
 
 ## Purpose and Real-Life Examples
 
 ### Purpose
 
-DoNot is built to address the challenges of full-scale automation, which can be overwhelming and rigid. By enabling gradual automation, DoNot allows teams to:
+AutoPilot is built to address the challenges of full-scale automation, which can be overwhelming and rigid. By enabling gradual automation, AutoPilot allows teams to:
 
 - **Start Small:** Begin with manual workflows and identify the most impactful steps to automate.
 - **Maintain Control:** Automate processes at your own pace, ensuring reliability and reducing errors.
@@ -65,7 +65,7 @@ DoNot is built to address the challenges of full-scale automation, which can be 
 
 ## Roadmap
 
-This is an early MVP version of DoNot. The following features are planned for future releases:
+This is an early MVP version of AutoPilot. The following features are planned for future releases:
 
 - **Execution Tracking:** Keep track of runbook executions to resume from the last step
 - **Context Management:** Store and retrieve variables during execution
@@ -89,12 +89,12 @@ If you want us to prioritize a feature, please thumbs up the issue or comment on
 
 ## Installation
 
-To install DoNot, clone the repository and build the project:
+To install AutoPilot, clone the repository and build the project:
 
 ```sh
-git clone https://github.com/stencilframe/donot.git
-cd donot
-go build -o donot ./pkg/cmd/donot
+git clone https://github.com/stencilframe/autopilot.git
+cd autopilot
+go build -o autopilot ./pkg/cmd/autopilot
 ```
 
 ## Usage
@@ -106,9 +106,9 @@ A runbook is a series of steps that can be executed manually or automatically. T
 #### Markdown Runbooks
 
 Markdown runbooks are defined by listing ordered steps with instructions and code blocks for shell steps.
-DoNot extracts the first ordered list in the file as the runbook steps. If there are multiple ordered lists, only the first one is considered.
+AutoPilot extracts the first ordered list in the file as the runbook steps. If there are multiple ordered lists, only the first one is considered.
 
-DoNot supports and detects two types of steps: manual and shell (automatic).
+AutoPilot supports and detects two types of steps: manual and shell (automatic).
 If a step has a code block, it's considered a shell step; otherwise, it's a manual step.
 
 ##### Example
@@ -159,10 +159,10 @@ steps:
 
 ### Execute a Runbook
 
-To execute a runbook, use the `donot` command followed by the runbook file:
+To execute a runbook, use the `autopilot` command followed by the runbook file:
 
 ```sh
-./donot run runbook.md
+./autopilot run runbook.md
 ```
 
 Runbook types are automatically detected based on the file extension:

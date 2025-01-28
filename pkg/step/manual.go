@@ -1,8 +1,8 @@
 package step
 
 import (
+	"autopilot/pkg/core"
 	"bufio"
-	"donot/pkg/core"
 	"fmt"
 	"os"
 )
