@@ -34,6 +34,14 @@ Dan Slimmon emphasized the importance of gradual automation—a strategy where y
 
     Not all tasks are created equal. Some are ripe for automation, while others benefit from human intuition and oversight. Gradual automation helps you identify and prioritize the tasks that truly need automation, ensuring that you invest your resources wisely.
 
+5. Reduces Errors and Cognitive Load
+
+    Manual runbooks are a breeding ground for human error and inconsistency. I can't remember how many times I've skipped a step executed a task incorrectly, or lost track of the progress due to distractions, leading to wasted time and effort. Having a tool that wraps manual steps and tracks the progress of execution ensures that you don't miss a step. Also, allows you to resume from the last step in case of an interruption.
+
+6. Encourages Collaboration
+
+    Having ability to transfer a runbook in-progress to another team member is a game-changer. It allows you to share the workload and collaborate more effectively, ensuring that everyone is on the same page and can contribute to the automation process.
+
 ## Introducing DoNot: Your Partner in Gradual Automation
 
 [Do Not]hing Scripting Automation.
