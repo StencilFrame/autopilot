@@ -22,25 +22,23 @@ Dan Slimmon emphasized the importance of gradual automation—a strategy where y
 
     Automating an entire workflow in one go can be overwhelming. There’s so much to consider—dependencies, error handling, and ensuring that every step works seamlessly together. With incremental automation, you can focus on automating one step at a time, ensuring each part works perfectly before moving on to the next.
 
-2. Maintains Control
-
-    Gradual automation gives you control over the process. You can decide which parts to automate based on priority and impact, rather than being forced into a complete automation overhaul. This way, you retain flexibility and can adapt as your workflows evolve.
-
-3. Builds Confidence
-
     Starting small allows you to build confidence in your automation efforts. As you successfully automate individual steps, you’ll gain the assurance needed to tackle more complex parts of your workflow.
 
-4. Optimizes Resources
+2. Cost of Opportunity (Optimizes Resources)
+
+    By automating the most and only time-consuming and error-prone parts of your workflow, you free up valuable time and resources that can be redirected to more strategic initiatives. Gradual automation allows you to focus on what matters most. You can decide which parts to automate based on priority and impact, rather than being forced into a complete automation overhaul or spending time on tasks that don't add significant value.
 
     Not all tasks are created equal. Some are ripe for automation, while others benefit from human intuition and oversight. Gradual automation helps you identify and prioritize the tasks that truly need automation, ensuring that you invest your resources wisely.
 
-5. Reduces Errors and Cognitive Load
+4. Reduces Errors and Cognitive Load
 
     Manual runbooks are a breeding ground for human error and inconsistency. I can't remember how many times I've skipped a step executed a task incorrectly, or lost track of the progress due to distractions, leading to wasted time and effort. Having a tool that wraps manual steps and tracks the progress of execution ensures that you don't miss a step. Also, allows you to resume from the last step in case of an interruption.
 
-6. Encourages Collaboration
+5. Encourages Collaboration (Transparency)
 
-    Having ability to transfer a runbook in-progress to another team member is a game-changer. It allows you to share the workload and collaborate more effectively, ensuring that everyone is on the same page and can contribute to the automation process.
+    Having ability to transfer/share a runbook in-progress to another team member is a game-changer. It allows you to share the workload and collaborate more effectively, ensuring that everyone is on the same page and can contribute to the automation process.
+
+    You can share some manual work with your Manager :-) or a colleague so they can work on it while you take care of other high-priority tasks.
 
 ## Introducing DoNot: Your Partner in Gradual Automation
 
