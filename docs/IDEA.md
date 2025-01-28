@@ -18,9 +18,9 @@ Dan Slimmon emphasized the importance of gradual automation—a strategy where y
 
 ## Why Gradual Automation Makes Sense
 
-1. Reduces Overwhelm
+1. Incremental Automation
 
-    Automating an entire workflow in one go can be overwhelming. There’s so much to consider—dependencies, error handling, and ensuring that every step works seamlessly together. By taking it slow, you can focus on automating one step at a time, ensuring each part works perfectly before moving on to the next.
+    Automating an entire workflow in one go can be overwhelming. There’s so much to consider—dependencies, error handling, and ensuring that every step works seamlessly together. With incremental automation, you can focus on automating one step at a time, ensuring each part works perfectly before moving on to the next.
 
 2. Maintains Control
 
@@ -65,13 +65,58 @@ Inspired by Dan Slimmon’s insights, I embarked on developing DoNot—a tool de
 
 Let me share a quick example of how gradual automation with DoNot can transform a workflow:
 
-Scenario: You’re managing the setup of new development environments—a task that involves several repetitive steps.
-	1.	Step 1: Verify system prerequisites.
-	2.	Step 2: Run a script to install necessary software.
-	3.	Step 3: Configure environment variables.
-	4.	Step 4: Execute post-configuration scripts.
+Scenario: you have to build a new feature for your application: self serving onboarding of the new workspace for user. The process involves creating records in the SQL database and setting up the index in the NoSQL database.
 
-With DoNot, you can start by automating Step 2. Once you’re confident that the installation script runs flawlessly, you can move on to automating Step 4. This way, you gradually reduce manual workload without disrupting the entire setup process.
+You are not sure if the feature will be successful, so you don't want to invest too much time in automation upfront (build what matters), or maybe you have another high-priority task that requires your attention. But you also want to ensure that the process is documented, repeatable and error-free. So you decide that you can onboard workspaces manually using documentation until you see the feature gaining traction.
+
+Here's how you could define the runbook for this process:
+~~~
+# Onboard New Workspace
+
+Requirements:
+    - user_email:
+    - workspace_name:
+    - MYSQL connection string:
+    - NOSQL connection string:
+
+Variables:
+    - workspace_id:
+    - user_id:
+
+1. Connect to the SQL database to create a new workspace record
+    [Provide instructions for how to connect to the right database]
+2. Create a new workspace record in the SQL database
+    ```
+    INSERT INTO WORKSPACES (name) values ('{workspace_name}');
+    ```
+3. Get the newly created workspace ID from the SQL database as {workspace_id}
+    ```
+    SELECT id FROM WORKSPACES WHERE name = '{workspace_name}';
+    ```
+4. Get user ID from the SQL database as {user_id}
+    ```
+    SELECT id FROM USERS WHERE email = '{user_email}';
+    ```
+5. Add user to the workspace
+    ```
+    INSERT INTO WORKSPACE_USERS (workspace_id, user_id) values ({workspace_id}, {user_id});
+    ```
+6. Connect to the NoSQL database to create an index for the new workspace
+    [Provide instructions for how to connect to the right database]
+7. Create an index in the NoSQL database
+    ```
+    CREATE INDEX `event_index_<workspace_id>` IF NOT EXISTS
+    ...
+    ```
+~~~
+
+NOTE: having this runbook as a document is already a huge improvement over having nothing, but executing it is still error-prone as you have to keep track of the progress and all variables. Step 3 and 7 share the same variable `{workspace_id}`. If you forget to update it in step 7, you will create an index for the wrong workspace.
+
+With DoNot, you can start automating the steps that are most time-consuming or error-prone. For example, you could automate steps 2, 3, 4, and 5, while leaving steps 1, 6, and 7 as manual tasks. This way, you can ensure that the critical parts of the process are automated, while still maintaining control over the entire workflow.
+
+DoNot will track the progress of the execution and all variables, so you don't have to worry about missing a step or updating the wrong variable. It can also show you all the metadata about the execution, so you can easily resume from the last step in case of an interruption.
+
+As the feature gains traction and you see the need for more automation, you can gradually convert the remaining manual steps into shell commands, making the process more efficient and scalable. And eventually, you can move automation to the fully functional feature of your application.
 
 ## Why I Believe in Gradual Automation
 

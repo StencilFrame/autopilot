@@ -1,32 +1,87 @@
 # DoNot - [Do Not]hing Scripting Automation.
 
-DoNot is a tool designed to gradually automate repetitive tasks by defining them in a runbook. A runbook is a series of steps that can be executed manually or automatically. This tool supports defining runbooks in both simple Markdown and extensible YAML formats.
+DoNot is a tool designed to gradually automate repetitive tasks by defining them in a runbook. Unlike traditional automation tools that require complete automation from the outset, DoNot enables a step-by-step approach, making it easier to transition from manual to automated processes without overwhelming your team or infrastructure.
+
+Build what matters!
 
 Inspired by [Do Nothing Scripting](https://blog.danslimmon.com/2019/07/15/do-nothing-scripting-the-key-to-gradual-automation) by Dan Slimmon.
 
 If you want to read more about the design and idea behind DoNot, check out the [design document](docs/DESIGN.md) and [idea document](docs/IDEA.md).
 
+## Purpose and Real-Life Examples
+
+### Purpose
+
+DoNot is built to address the challenges of full-scale automation, which can be overwhelming and rigid. By enabling gradual automation, DoNot allows teams to:
+
+- **Start Small:** Begin with manual workflows and identify the most impactful steps to automate.
+- **Maintain Control:** Automate processes at your own pace, ensuring reliability and reducing errors.
+- **Enhance Flexibility:** Adapt and evolve your workflows as your needs change, without being locked into a rigid automation structure.
+
+### Real-Life Examples
+
+1. System Maintenance:
+  - **Manual Workflow:**  
+    Every morning, an engineer manually checks system health, rotates logs, and applies security patches.
+  - **Runbook steps:**
+    - Check system health
+    - Rotate logs
+    - Apply security patches
+  - **Gradual Automation:**  
+    You start by automating the most critical step for your application. For example, you automate the log rotation process, because if not done correctly, it can lead to disk space issues and cause the application to crash. Next time you run the runbook, you can skip the log rotation step as it's already automated. The runbook will tell you what to do next, so you don't have to remember.
+
+    Having a runbook allows you to share the process with other team members and ensure consistency across the team.
+
+2. DevOps Pipelines:
+  - **Manual Workflow:**  
+    CI/CD pipeline is not ready yet, so developers manually build and deploy the application
+  - **Runbook steps:**
+    - Run tests
+    - Build the application
+    - Deploy to staging
+    - Check the deployment
+  - **Gradual Automation:**  
+    You decide that the most time-consuming and error-prone step is the deployment to staging. You start by automating this step, so developers can focus on writing code and running tests. Once the deployment step is automated, you move on to the other steps in the pipeline.
+
+    Having a runbook makes sure that everyone follows the same steps and that the process is consistent.
+
+3. Developer Experience (New User Onboarding):
+  - **Manual Workflow:**  
+    New user onboarding involves setting up local development environments, running build scripts, and deploying to staging.
+  - **Runbook steps:**
+    - Instructions for seting up local development environment
+    - Instructions for running build scripts
+    - Instructions for deploying to staging
+  - **Gradual Automation:**
+    You start by automating the local development environment setup or sub-step, as it's a time-consuming and error-prone process. Once that's automated, you move on to the build scripts and deployment steps. This way, new users can get started quickly, and you can ensure consistency across the team.
+
+    Having a runbook ensure that they follow the same steps every time and that the process is consistent.
+
 ## Supported features
 
-- Define runbooks in Markdown or YAML
-- Supports manual and shell steps
+- **Define Runbooks in Markdown or YAML:** Choose the format that best fits your workflow documentation needs.
+- **Supports Manual and Shell Steps:** Start with fully manual workflows and incrementally automate specific steps.
+- **Gradual Automation:** Automate one step at a time, ensuring each part works perfectly before moving on.
 
 ## Roadmap
 
 This is an early MVP version of DoNot. The following features are planned for future releases:
 
-- Keep execution track to resume from the last step
-- Context management for storing and retrieving variables during execution
-- Logging of step execution
-- Support for more complex step types (e.g., input, conditional, nested steps, etc.)
-- Support Runbook type overrides (e.g., `--type=markdown` or `--type=yaml`)
-- Support complex executors (e.g., Docker, API calls, etc.)
-- Better CLI interface for managing runbooks and execution
-- Web UI for managing runbooks and execution
-- Support different distributions (e.g., Homebrew, APT, etc.)
-- Support for different platforms (e.g., Windows, macOS, Linux, etc.)
-- Add SDK support for runbooks
-- Add support for plugins, notifications and scheduling
+- **Execution Tracking:** Keep track of runbook executions to resume from the last step
+- **Context Management:** Store and retrieve variables during execution
+- **Comprehensive Logging:** Detailed logs of step executions for auditing and troubleshooting
+- **Advanced Step Types:** Input, conditional, nested steps, and more
+- **Runbook Type Overrides:** Explicitly specify runbook formats (e.g., --type=markdown or --type=yaml)
+- **Enhanced Executors:** Support Docker, API calls, and other complex execution environments
+- **User-Friendly CLI:** Intuitive command-line interface for managing and executing runbooks
+- **Web UI:** Visual dashboard for managing runbooks and monitoring executions
+- **Cross-Platform Support:** Compatibility with Windows, macOS, and Linux
+- **Plugin and SDK Support:** Extend functionality with plugins and provide SDKs for developers
+- **Notifications and Scheduling:** Support notification API and allow runbook scheduling
+- **Distribution Support:** Provide installation packages for different distributions (e.g., Homebrew, APT, etc.)
+- **Security and Access Control:** Role-based access control and secure runbook execution
+- **Extensible Architecture:** Easily add new step types and integrations through plugins and APIs
+- **Plugin Marketplace:** Central repository for sharing and discovering plugins and automation scripts/steps.
 
 If you have any feature requests or suggestions, please open an issue on GitHub. Pull requests are also welcome!
 
@@ -46,7 +101,7 @@ go build -o donot ./pkg/cmd/donot
 
 ### Define a Runbook
 
-Create a runbook file in Markdown YAML or format.
+A runbook is a series of steps that can be executed manually or automatically. This tool supports defining runbooks in both simple Markdown and extensible YAML formats.
 
 #### Markdown Runbooks
 
