@@ -4,7 +4,9 @@ DoNot is a tool designed to gradually automate repetitive tasks by defining them
 
 Inspired by [Do Nothing Scripting](https://blog.danslimmon.com/2019/07/15/do-nothing-scripting-the-key-to-gradual-automation) by Dan Slimmon.
 
-## Features
+If you want to read more about the design and idea behind DoNot, check out the [design document](docs/DESIGN.md) and [idea document](docs/IDEA.md).
+
+## Supported features
 
 - Define runbooks in Markdown or YAML
 - Supports manual and shell steps
