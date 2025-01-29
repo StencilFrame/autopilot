@@ -1,4 +1,4 @@
-# AutoPilot - Do Nothing Scripting Automation.
+# AutoPilot - A system for gradual runbook automation
 
 AutoPilot is a tool designed to gradually automate repetitive tasks by defining them in a runbook. Unlike traditional automation tools that require complete automation from the outset, AutoPilot enables a step-by-step approach, making it easier to transition from manual to automated processes without overwhelming your team or infrastructure.
 
