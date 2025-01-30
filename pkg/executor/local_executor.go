@@ -7,22 +7,22 @@ import (
 	"time"
 )
 
-// Executor is responsible for running the steps in a runbook.
-type Executor struct {
+// LocalExecutor is responsible for running the steps in a runbook on the local machine.
+type LocalExecutor struct {
 	Run     *core.Run
 	Runbook step.Runbook
 }
 
-// NewExecutor creates a new Executor instance.
-func NewExecutor(run *core.Run, runbook step.Runbook) *Executor {
-	return &Executor{
+// NewLocalExecutor creates a new LocalExecutor instance.
+func NewLocalExecutor(run *core.Run, runbook step.Runbook) *LocalExecutor {
+	return &LocalExecutor{
 		Run:     run,
 		Runbook: runbook,
 	}
 }
 
-// Execute runs all steps in the runbook sequentially.
-func (e *Executor) Execute() error {
+// Execute runs all steps in the runbook sequentially on the local machine.
+func (e *LocalExecutor) Execute() error {
 	e.Run.Status = core.StatusInProgress
 	e.Run.StartTime = time.Now()
 

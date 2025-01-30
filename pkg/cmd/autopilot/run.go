@@ -40,7 +40,7 @@ var runCmd = &cobra.Command{
 		run := core.NewRun("run-" + runbook.Name())
 
 		// Set up the executor with a CLI observer
-		executor := executor.NewExecutor(run, runbook)
+		executor := executor.NewLocalExecutor(run, runbook)
 
 		// Execute the runbook
 		if err := executor.Execute(); err != nil {
