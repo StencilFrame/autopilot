@@ -91,6 +91,8 @@ If you want us to prioritize a feature, please thumbs up the issue or comment on
 
 ## Installation
 
+### From Source
+
 To install AutoPilot, clone the repository and build the project:
 
 ```sh
@@ -99,7 +101,15 @@ cd autopilot
 go build -o autopilot ./pkg/cmd/autopilot
 ```
 
-Or download the latest release from the [releases page](https://github.com/StencilFrame/autopilot/releases)
+### Homebrew (macOS)
+
+```sh
+brew install stencilframe/autopilot/autopilot
+```
+
+### Download Binary from Releases
+
+Download the latest release from the [releases page](https://github.com/StencilFrame/autopilot/releases)
 
 ## Usage
 
