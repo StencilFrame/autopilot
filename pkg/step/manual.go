@@ -2,9 +2,7 @@ package step
 
 import (
 	"autopilot/pkg/core"
-	"bufio"
 	"fmt"
-	"os"
 )
 
 // ManualStep waits for user confirmation before proceeding.
@@ -32,23 +30,8 @@ func NewManualStep(id, name, instructions string) *ManualStep {
 }
 
 // Run executes the manual step logic.
-// TODO: Refactor to support different UI types.
 func (m *ManualStep) Run(run *core.Run) error {
-	// Display instructions to the user.
-	fmt.Println("\n--------------------------------------------------")
-	fmt.Printf("[Manual Step] %s\n\n", m.Name())
-	if m.Instructions != "" {
-		fmt.Println(m.Instructions)
-	}
-	fmt.Print("\nPress Enter when done...")
-
-	// Wait for user confirmation.
-	_, err := bufio.NewReader(os.Stdin).ReadString('\n')
-	if err != nil {
-		return fmt.Errorf("failed to confirm manual step: %w", err)
-	}
-
-	run.Log(m.ID(), "Manual step completed by user.")
+	// Do nothing
 	return nil
 }
 
@@ -63,12 +46,13 @@ func (m *ManualStep) Render(ui UIType) string {
 		return f(m)
 	}
 
+	// Fallback to default render
 	return fmt.Sprintf("Manual Step: %s\n%s", m.Name(), m.Instructions)
 }
 
 // renderCLI renders the manual step for the command-line interface.
 func (m *ManualStep) renderCLI(step Step) string {
-	s := fmt.Sprintf("[Manual Step] %s", m.Name())
+	s := fmt.Sprintf("[Manual] %s\n", m.Name())
 	if m.Instructions != "" {
 		s += fmt.Sprintf("\n%s", m.Instructions)
 	}

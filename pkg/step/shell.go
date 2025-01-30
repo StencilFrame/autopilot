@@ -31,25 +31,22 @@ func NewShellStep(id, name, command string) *ShellStep {
 	return s
 }
 
-// Run executes the shell step logic.
+// Run executes the shell step logic
 func (s *ShellStep) Run(run *core.Run) error {
-	fmt.Println("\n--------------------------------------------------")
-	fmt.Printf("[Shell Step] %s\n", s.Name())
-	fmt.Printf("Running command: %s\n", s.Command)
-
-	// Execute the shell command.
+	// Execute the shell command locally
 	cmd := exec.Command("sh", "-c", s.Command)
 	output, err := cmd.CombinedOutput()
+	if err != nil {
+		run.Log(s.ID(), fmt.Sprintf("Error executing command: %s", err))
+		return fmt.Errorf("shell command failed: %w", err)
+	}
 	outStr := strings.TrimSpace(string(output))
 
-	// Print the command output.
-	fmt.Println(outStr)
+	// Print the command output
+	fmt.Printf("Command output:\n\n%s\n", outStr)
 
 	// Log the command output.
 	run.Log(s.ID(), fmt.Sprintf("Command output: %s", outStr))
-	if err != nil {
-		return fmt.Errorf("shell command failed: %w", err)
-	}
 
 	return nil
 }
@@ -65,12 +62,13 @@ func (s *ShellStep) Render(ui UIType) string {
 		return f(s)
 	}
 
+	// Fallback to default render
 	return fmt.Sprintf("Shell Step: %s\nCommand: %s", s.Name(), s.Command)
 }
 
 // renderCLI renders the shell step for the command-line interface.
 func (s *ShellStep) renderCLI(step Step) string {
-	return fmt.Sprintf("[Shell Step] %s\nCommand: %s", s.Name(), s.Command)
+	return fmt.Sprintf("[Shell] %s\n\nRunning command: %s", s.Name(), s.Command)
 }
 
 // renderWeb renders the shell step for the web interface.
