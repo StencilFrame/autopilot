@@ -104,7 +104,14 @@ go build -o autopilot ./pkg/cmd/autopilot
 ### Homebrew (macOS)
 
 ```sh
-brew install stencilframe/autopilot
+brew tap stencilframe/autopilot
+brew install autopilot
+```
+
+or just
+
+```sh
+brew install stencilframe/autopilot/autopilot
 ```
 
 ### Download Binary from Releases
