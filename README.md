@@ -97,6 +97,8 @@ cd autopilot
 go build -o autopilot ./pkg/cmd/autopilot
 ```
 
+Or download the latest release from the [releases page](https://github.com/StencilFrame/autopilot/releases)
+
 ## Usage
 
 ### Define a Runbook
