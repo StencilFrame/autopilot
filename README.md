@@ -196,7 +196,7 @@ Contributions are welcome! Please open an issue or submit a pull request on GitH
 
 ## Support
 
-If you have any questions or need help, please open an issue on GitHub or find us on [Slack](https://join.slack.com/t/stencilframesupport/shared_invite/zt-2ynp05the-4~kanvoSa~HTHxZCUDuKEg)
+If you have any questions or need help, please open an issue on GitHub, start a [discussion](https://github.com/StencilFrame/autopilot/discussions) or find us on [Slack](https://join.slack.com/t/stencilframesupport/shared_invite/zt-2ynp05the-4~kanvoSa~HTHxZCUDuKEg)
 
 ## Sponsoring
 
