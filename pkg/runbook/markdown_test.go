@@ -43,10 +43,10 @@ Additional information about the runbook
 
 	// Validate the parsed steps
 	expectedSteps := []string{
-		"[Manual Step] Step 1: Initialize the environment",
-		"[Manual Step] Step 2: Do something\nAdditional information about step 2",
-		"[Manual Step] Step 3: Do something else\nAdditional information about step 3",
-		"[Shell Step] Step 4: Do something automatically\nCommand: echo \"Hello, world!\"",
+		"[Manual] Step 1: Initialize the environment\n",
+		"[Manual] Step 2: Do something\n\nAdditional information about step 2",
+		"[Manual] Step 3: Do something else\n\nAdditional information about step 3",
+		"[Shell] Step 4: Do something automatically\n\nRunning command: echo \"Hello, world!\"",
 	}
 
 	require.Equal(t, len(expectedSteps), len(steps))
