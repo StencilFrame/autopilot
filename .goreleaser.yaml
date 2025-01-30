@@ -18,6 +18,8 @@ builds:
   - id: autopilot
     dir: pkg/cmd/autopilot
     binary: autopilot
+    ldflags:
+      - -X main.versionInfo={{ .Version }}
     env:
       - CGO_ENABLED=0
     goos:

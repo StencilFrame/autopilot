@@ -17,6 +17,7 @@ Inspired by Do Nothing Scripting.`,
 func main() {
 	// Add subcommands
 	rootCmd.AddCommand(runCmd)
+	rootCmd.AddCommand(versionCmd)
 
 	// Execute the root command
 	if err := rootCmd.Execute(); err != nil {
