@@ -42,6 +42,8 @@ func (e *LocalExecutor) Execute() error {
 		option, err := e.CLIMenu.WaitForOption()
 		if err != nil {
 			e.Run.Log(s.ID(), fmt.Sprintf("Error waiting for user input: %s", err))
+			e.Run.Status = core.StatusFailed
+			e.Run.EndTime = time.Now()
 			return fmt.Errorf("error waiting for user input: %w", err)
 		}
 
@@ -54,19 +56,22 @@ func (e *LocalExecutor) Execute() error {
 		}
 
 		switch option {
-		case "y", "c":
-			// Execute the step.
+		case "y", "c", "":
+			// Execute the step and continue to the next step
 			err := s.Run(e.Run)
 			if err != nil {
-				e.Run.Status = core.StatusAborted
+				e.Run.Status = core.StatusFailed
 				e.Run.EndTime = time.Now()
+				e.Run.Log(s.ID(), fmt.Sprintf("Error executing step: %s", err))
 				return fmt.Errorf("error in step %s: %w", s.ID(), err)
 			}
+			// Mark step as complete
+			e.Run.Log(s.ID(), "Step completed successfully.")
 		case "n", "s":
-			// Skip the step.
+			// Skip the step without executing it
 			e.Run.Log(s.ID(), "Step skipped.")
 		case "b":
-			// Go back to the previous step.
+			// Go back to the previous step without executing current step
 			if e.Run.CurrentStepIndex > 0 {
 				e.Run.CurrentStepIndex -= 2
 			} else {
@@ -74,8 +79,6 @@ func (e *LocalExecutor) Execute() error {
 			}
 		}
 
-		// Mark step as complete
-		e.Run.Log(s.ID(), "Step completed successfully.")
 		// Advance to the next step.
 		e.Run.CurrentStepIndex++
 	}

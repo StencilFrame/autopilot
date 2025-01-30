@@ -12,6 +12,7 @@ const (
 	StatusInProgress RunStatus = "in_progress"
 	StatusCompleted  RunStatus = "completed"
 	StatusAborted    RunStatus = "aborted"
+	StatusFailed     RunStatus = "failed"
 	StatusPaused     RunStatus = "paused"
 )
 
