@@ -31,10 +31,11 @@ type Run struct {
 	StartTime        time.Time // Start time of the run
 	EndTime          time.Time // End time of the run
 	Context          *Context  // Execution context for storing variables
+	verbose          bool      // Verbose mode for additional output
 }
 
 // NewRun initializes a new run instance for a runbook.
-func NewRun(id string) *Run {
+func NewRun(id string, verbose bool) *Run {
 	return &Run{
 		ID:               id,
 		CurrentStepIndex: 0,
@@ -42,6 +43,7 @@ func NewRun(id string) *Run {
 		Logs:             []RunLog{},
 		Context:          NewContext(),
 		StartTime:        time.Now(),
+		verbose:          verbose,
 	}
 }
 
@@ -55,7 +57,9 @@ func (r *Run) Log(stepID, message string) {
 	r.Logs = append(r.Logs, log)
 
 	// Optionally print logs to stdout for immediate feedback
-	fmt.Printf("[%s] %s: %s\n", log.Timestamp.Format(time.RFC3339), stepID, message)
+	if r.verbose {
+		fmt.Printf("[%s] %s: %s\n", log.Timestamp.Format(time.RFC3339), stepID, message)
+	}
 }
 
 // MarkStepComplete updates the run state after a step is successfully executed.

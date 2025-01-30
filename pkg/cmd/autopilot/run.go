@@ -37,7 +37,8 @@ var runCmd = &cobra.Command{
 		}
 
 		// Create a new run
-		run := core.NewRun("run-" + runbook.Name())
+		verbose, _ := cmd.Flags().GetBool("v")
+		run := core.NewRun("run-"+runbook.Name(), verbose)
 
 		// Set up the executor with a CLI observer
 		executor := executor.NewLocalExecutor(run, runbook)
