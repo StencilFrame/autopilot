@@ -64,6 +64,8 @@ AutoPilot is built to address the challenges of full-scale automation, which can
 - **Define Runbooks in Markdown or YAML:** Choose the format that best fits your workflow documentation needs.
 - **Supports Manual and Shell Steps:** Start with fully manual workflows and incrementally automate specific steps.
 - **Gradual Automation:** Automate one step at a time, ensuring each part works perfectly before moving on.
+- **User-Friendly CLI:** Intuitive command-line interface for executing runbooks
+- **Cross-Platform Support:** Compatibile with Windows, macOS, and Linux
 
 ## Roadmap
 
@@ -75,13 +77,12 @@ This is an early MVP version of AutoPilot. The following features are planned fo
 - **Advanced Step Types:** Input, conditional, nested steps, and more
 - **Runbook Type Overrides:** Explicitly specify runbook formats (e.g., --type=markdown or --type=yaml)
 - **Enhanced Executors:** Support Docker, API calls, and other complex execution environments
-- **User-Friendly CLI:** Intuitive command-line interface for managing and executing runbooks
+- **User-Friendly CLI:** Intuitive command-line interface for managing runbooks
 - **Web UI:** Visual dashboard for managing runbooks and monitoring executions
-- **Cross-Platform Support:** Compatibility with Windows, macOS, and Linux
 - **Plugin and SDK Support:** Extend functionality with plugins and provide SDKs for developers
 - **Notifications and Scheduling:** Support notification API and allow runbook scheduling
-- **Distribution Support:** Provide installation packages for different distributions (e.g., Homebrew, APT, etc.)
-- **Security and Access Control:** Role-based access control and secure runbook execution
+- **Distribution Support:** Provide installation packages for different distributions (e.g., ~~Homebrew~~, APT, etc.)
+- **Security and Access Control:** Role-based access control and secrets management
 - **Extensible Architecture:** Easily add new step types and integrations through plugins and APIs
 - **Plugin Marketplace:** Central repository for sharing and discovering plugins and automation scripts/steps.
 
