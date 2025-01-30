@@ -51,3 +51,8 @@ var runCmd = &cobra.Command{
 		fmt.Println("Run completed successfully.")
 	},
 }
+
+func init() {
+	runCmd.Flags().BoolP("v", "v", false, "Enable verbose output")
+	rootCmd.AddCommand(runCmd)
+}

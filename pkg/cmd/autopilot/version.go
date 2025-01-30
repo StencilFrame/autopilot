@@ -22,3 +22,7 @@ var versionCmd = &cobra.Command{
 		fmt.Println("AutoPilot version:", vi)
 	},
 }
+
+func init() {
+	rootCmd.AddCommand(versionCmd)
+}
