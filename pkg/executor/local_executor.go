@@ -47,14 +47,6 @@ func (e *LocalExecutor) Execute() error {
 			return fmt.Errorf("error waiting for user input: %w", err)
 		}
 
-		if option == "q" {
-			// Quit the runbook.
-			e.Run.Status = core.StatusAborted
-			e.Run.EndTime = time.Now()
-			e.Run.Log("", "Run aborted.")
-			return nil
-		}
-
 		switch option {
 		case "y", "c", "":
 			// Execute the step and continue to the next step
@@ -77,6 +69,12 @@ func (e *LocalExecutor) Execute() error {
 			} else {
 				e.Run.CurrentStepIndex--
 			}
+		case "q":
+			// Quit the runbook.
+			e.Run.Status = core.StatusAborted
+			e.Run.EndTime = time.Now()
+			e.Run.Log("", "Run aborted.")
+			return nil
 		}
 
 		// Advance to the next step.
