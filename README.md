@@ -8,7 +8,7 @@ Inspired by [Do Nothing Scripting](https://blog.danslimmon.com/2019/07/15/do-not
 
 If you want to read more about the design and idea behind AutoPilot, check out the [design document](docs/DESIGN.md) and [idea document](docs/IDEA.md).
 
-[![asciicast](https://asciinema.org/a/Rba9evGpOyJ227ty3VvIysXYq.svg)](https://asciinema.org/a/Rba9evGpOyJ227ty3VvIysXYq)
+![demo](./examples/demo.gif)
 
 ## Purpose and Real-Life Examples
 
