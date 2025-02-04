@@ -1,0 +1,15 @@
+__autopilot_fzf() {
+  local output
+  output=$({{ .cmd }} fzf)
+
+  LBUFFER="${LBUFFER}${output}"
+  zle redisplay
+
+  local ret=$?
+  zle reset-prompt
+  return $ret
+}
+
+zle -N __autopilot_fzf
+
+bindkey '^G' __autopilot_fzf
