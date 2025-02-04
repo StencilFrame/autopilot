@@ -39,9 +39,10 @@ var fzfCmd = &cobra.Command{
 		}()
 
 		outputChan := make(chan string)
+		selectedItem := ""
 		go func() {
 			for s := range outputChan {
-				fmt.Println("Got: " + s)
+				selectedItem = s
 			}
 		}()
 
@@ -69,6 +70,18 @@ var fzfCmd = &cobra.Command{
 		code, err := fzf.Run(options)
 		if err != nil {
 			exit(code, err)
+		}
+
+		// Link back the selected item to the library item
+		if selectedItem != "" {
+			// Extract the command from the selected item
+			item, err := lib.GetItemByCommand(selectedItem)
+			if err != nil {
+				log.Fatalf("Error: %v", err)
+			}
+
+			// Print the command in a way that it can be evaluated by the shell
+			fmt.Println(item.Command)
 		}
 	},
 }

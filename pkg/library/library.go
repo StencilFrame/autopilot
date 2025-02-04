@@ -5,6 +5,8 @@ import (
 	"errors"
 	"fmt"
 	"os"
+	"regexp"
+	"strconv"
 	"strings"
 	"sync"
 )
@@ -102,6 +104,26 @@ func (l *Library) Items(fields []string) []string {
 		items = append(items, strings.TrimSpace(item))
 	}
 	return items
+}
+
+// GetItemByCommand returns an item by command
+func (l *Library) GetItemByCommand(command string) (*Item, error) {
+	l.mutex.Lock()
+	defer l.mutex.Unlock()
+
+	re := regexp.MustCompile(`^\d+`)
+	match := re.Find([]byte(command))
+	if match == nil {
+		return nil, fmt.Errorf("invalid command: %s", command)
+	}
+	i, err := strconv.Atoi(string(match))
+	if err != nil {
+		return nil, err
+	}
+	if i < 1 || i > len(l.item) {
+		return nil, fmt.Errorf("invalid command: %s", command)
+	}
+	return &l.item[i-1], nil
 }
 
 func trim(s string, max int) string {
