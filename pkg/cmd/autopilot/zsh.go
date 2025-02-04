@@ -4,7 +4,6 @@ import (
 	"autopilot/pkg/cmd/autopilot/templates"
 	"log"
 	"os"
-	"path"
 	"text/template"
 
 	"github.com/MakeNowJust/heredoc"
@@ -23,13 +22,8 @@ var zshCmd = &cobra.Command{
 		if err != nil {
 			log.Fatal(err)
 		}
-		cwd, err := os.Getwd()
-		if err != nil {
-			log.Fatal(err)
-		}
-		commandPath := path.Join(cwd, path.Base(os.Args[0]))
 		tmpl.Execute(os.Stdout, map[string]string{
-			"cmd": commandPath,
+			"cmd": os.Args[0],
 		})
 	},
 }
