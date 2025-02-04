@@ -1,8 +1,7 @@
 package main
 
 import (
-	"fmt"
-	"os"
+	"log"
 
 	"github.com/spf13/cobra"
 )
@@ -17,7 +16,12 @@ Inspired by Do Nothing Scripting.`,
 func main() {
 	// Execute the root command
 	if err := rootCmd.Execute(); err != nil {
-		fmt.Println(err)
-		os.Exit(1)
+		log.Fatal(err)
 	}
+}
+
+func init() {
+	// Configure default logger
+	// TODO: make this configurable
+	log.SetFlags(log.Flags() &^ (log.Ldate | log.Ltime))
 }

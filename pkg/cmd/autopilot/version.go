@@ -1,7 +1,7 @@
 package main
 
 import (
-	"fmt"
+	"log"
 
 	"github.com/spf13/cobra"
 )
@@ -19,7 +19,7 @@ var versionCmd = &cobra.Command{
 		if vi == "" {
 			vi = "development"
 		}
-		fmt.Println("AutoPilot version:", vi)
+		log.Printf("AutoPilot version: %s\n", vi)
 	},
 }
 

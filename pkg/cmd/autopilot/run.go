@@ -5,8 +5,7 @@ import (
 	"autopilot/pkg/executor"
 	coreRunbook "autopilot/pkg/runbook"
 	"autopilot/pkg/step"
-	"fmt"
-	"os"
+	"log"
 	"path/filepath"
 
 	"github.com/spf13/cobra"
@@ -33,7 +32,7 @@ var runCmd = &cobra.Command{
 			_ = runbookYaml.Parse(runbookFile)
 			runbook = runbookYaml
 		default:
-			fmt.Printf("Unsupported runbook type: %s\n", ext)
+			log.Fatalf("Unsupported runbook type: %s", ext)
 		}
 
 		// Create a new run
@@ -45,8 +44,7 @@ var runCmd = &cobra.Command{
 
 		// Execute the runbook
 		if err := executor.Execute(); err != nil {
-			fmt.Printf("Run failed: %v\n", err)
-			os.Exit(1)
+			log.Fatalf("Run failed: %v", err)
 		}
 	},
 }
