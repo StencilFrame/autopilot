@@ -67,6 +67,12 @@ var addCmd = &cobra.Command{
 		// No description - it will launch the editor to add the description
 		description := ""
 		// Get all arguments string as the command
+		// If argument contains spaces, it will be quoted
+		for i, arg := range args {
+			if strings.Contains(arg, " ") {
+				args[i] = fmt.Sprintf("%q", arg)
+			}
+		}
 		command := strings.Join(args, " ")
 
 		addCommand(libraryFile, description, command)
@@ -85,19 +91,19 @@ func addCommand(libraryPath, description, command string) {
 	template += "# Command Description\n"
 	if description != "" {
 		item.Description = description
-		template += fmt.Sprintf("# Description: %s\n\n", description)
+		template += fmt.Sprintf("description: %s\n\n", description)
 	} else {
 		template += "description: \n\n"
 		position = len(template) - 1
 	}
 
+	template += "# Command to save\n"
+	template += "command: |\n"
+	template += "     " // indent the cursor
 	if command != "" {
 		item.Command = command
-		template += fmt.Sprintf("# Command: %s\n\n", command)
+		template += fmt.Sprintf("%s\n\n", command)
 	} else {
-		template += "# Command to save\n"
-		template += "command: |\n"
-		template += "     " // indent the cursor
 		if position == 0 {
 			position = len(template) - 1
 		}
@@ -177,5 +183,6 @@ func init() {
 	viper.BindEnv("library", "AUTOPILOT_LIBRARY")
 
 	rootCmd.AddCommand(addItemCmd)
+	addCmd.DisableFlagParsing = true
 	rootCmd.AddCommand(addCmd)
 }
