@@ -5,16 +5,18 @@ import (
 	"fmt"
 	"os"
 	"os/exec"
+	"strings"
 
 	"gopkg.in/yaml.v3"
 )
 
 // Helper function to launch the editor
-func LaunchEditor(editor string, content string, linePos int) (string, error) {
+func LaunchEditor(editor string, content string, pos int) (string, error) {
 	args := []string{}
 	if editor == "vim" || editor == "vi" { // TODO: add support for other editors. Make it configurable
-		if linePos > 0 {
-			args = append(args, fmt.Sprintf("+%d", linePos))
+		if pos > 0 {
+			// move cursor n bytes
+			args = append(args, fmt.Sprintf("+normal %dgo", pos))
 		}
 	}
 

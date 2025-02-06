@@ -9,6 +9,7 @@ import (
 	"os"
 	"os/user"
 	"path/filepath"
+	"strings"
 
 	"github.com/MakeNowJust/heredoc"
 	"github.com/spf13/cobra"
@@ -22,39 +23,17 @@ const (
 	DefaultEditor = "vi"
 )
 
-var addCmd = &cobra.Command{
-	Use:   "add [flags]",
+var addItemCmd = &cobra.Command{
+	Use:   "add-item [flags]",
 	Short: "Add a new item to the library",
 	Long: heredoc.Doc(`
 		Add a new item to the library.
-		The add command will launch the editor to define the item.
+		The add-item command will launch the editor to define the item.
 	`),
 	Run: func(cmd *cobra.Command, args []string) {
-		libraryFile, _ := cmd.Flags().GetString("library")
-		if libraryFile == "" {
-			log.Fatal("Library file is required")
-		}
-		expandedPath, err := expand(libraryFile)
-		if err != nil {
-			log.Fatal(err)
-		}
-
-		// Create a new library
-		lib := library.NewLibrary()
-		// Load the library from the file before adding the item
-		lib.Load(expandedPath)
-		item := library.Item{}
-
-		template := "# This is a YAML template for the new item\n\n"
-
-		template += "# Command Description\n"
-		if description, _ := cmd.Flags().GetString("description"); description != "" {
-			item.Description = description
-			template += fmt.Sprintf("# Description: %s\n\n", description)
-		} else {
-			template += "description: \n\n"
-		}
-
+		libraryFile := viper.GetString("library")
+		// Get the description from the flag
+		description, _ := cmd.Flags().GetString("description")
 		// Get the command to add from stdin
 		var command []byte
 		// check if there is somethinig to read on STDIN
@@ -67,40 +46,94 @@ var addCmd = &cobra.Command{
 			if err := scanner.Err(); err != nil {
 				log.Fatal(err)
 			}
-			item.Command = string(command)
-		} else {
-			editor := viper.GetString("EDITOR")
-			// Launch the editor to create the item
-			template += "# Command to save\n"
-			template += "command: |\n"
-			template += "     " // indent the cursor
-			command, err := core.LaunchEditor(editor, template, len(template))
-			if err != nil {
-				log.Fatal(err)
-			}
-			err = core.ParseContent(command, &item)
-			if err != nil {
-				log.Fatal(err)
-			}
 		}
 
-		// validate the item before adding it to the library
-		if err := item.Validate(); err != nil {
-			log.Fatal(err)
-		}
-
-		// Add the item to the library
-		if err := lib.Add(item); err != nil {
-			log.Fatal(err)
-		}
-
-		// Save the library
-		if err := lib.Save(expandedPath); err != nil {
-			log.Fatal(err)
-		}
-
-		log.Println("Item added to the library")
+		addCommand(libraryFile, description, string(command))
 	},
+}
+
+var addCmd = &cobra.Command{
+	Use:   "add command",
+	Short: "Add a new command to the library",
+	Long: heredoc.Doc(`
+		Add a new command to the library.
+		It takes the command as an argument.
+		The add command will launch the editor to edit the item before adding it to the library.
+		It will write the item to the default library file (~/.autopilot_library.json)
+		or the file specified by the environment variable AUTOPILOT_LIBRARY.
+	`),
+	Run: func(cmd *cobra.Command, args []string) {
+		libraryFile := viper.GetString("library")
+		// No description - it will launch the editor to add the description
+		description := ""
+		// Get all arguments string as the command
+		command := strings.Join(args, " ")
+
+		addCommand(libraryFile, description, command)
+	},
+}
+
+func addCommand(libraryPath, description, command string) {
+	// Create a new library
+	lib := library.NewLibrary()
+	// Load the library from the file before adding the item
+	lib.Load(libraryPath)
+	item := library.Item{}
+
+	position := 0
+	template := "# This is a YAML template for the new item\n\n"
+	template += "# Command Description\n"
+	if description != "" {
+		item.Description = description
+		template += fmt.Sprintf("# Description: %s\n\n", description)
+	} else {
+		template += "description: \n\n"
+		position = len(template) - 1
+	}
+
+	if command != "" {
+		item.Command = command
+		template += fmt.Sprintf("# Command: %s\n\n", command)
+	} else {
+		template += "# Command to save\n"
+		template += "command: |\n"
+		template += "     " // indent the cursor
+		if position == 0 {
+			position = len(template) - 1
+		}
+	}
+
+	// Launch the editor to edit the item
+	if item.Description == "" || item.Command == "" {
+		editor := viper.GetString("EDITOR")
+
+		// Launch the editor to create the item
+		command, err := core.LaunchEditor(editor, template, position)
+		if err != nil {
+			log.Fatal(err)
+		}
+		err = core.ParseContent(command, &item)
+		if err != nil {
+			log.Fatal(err)
+		}
+	}
+
+	// validate the item before adding it to the library
+	if err := item.Validate(); err != nil {
+		log.Fatal(err)
+	}
+
+	// Add the item to the library
+	if err := lib.Add(item); err != nil {
+		log.Fatal(err)
+	}
+
+	// Save the library
+	if err := lib.Save(libraryPath); err != nil {
+		log.Fatal(err)
+	}
+
+	log.Println("Item added to the library")
 }
 
 // Helper function to expand the path
@@ -122,12 +155,12 @@ func init() {
 		log.Fatal(err)
 	}
 
-	addCmd.Flags().StringP("editor", "e", DefaultEditor, "Editor to use to create the item. Environment variable: EDITOR")
-	addCmd.Flags().StringP("library", "l", expandedPath, "Library file. Environment variable: AUTOPILOT_LIBRARY")
-	addCmd.Flags().StringP("description", "d", "", "Item description")
+	addItemCmd.Flags().StringP("editor", "e", DefaultEditor, "Editor to use to create the item. Environment variable: EDITOR")
+	addItemCmd.Flags().StringP("library", "l", expandedPath, "Library file. Environment variable: AUTOPILOT_LIBRARY")
+	addItemCmd.Flags().StringP("description", "d", "", "Item description")
 
 	// Bind the environment variables to the flags
-	flags := addCmd.Flags()
+	flags := addItemCmd.Flags()
 
 	// Bind Editor flag
 	if err := viper.BindPFlag("editor", flags.Lookup("editor")); err != nil {
@@ -143,5 +176,6 @@ func init() {
 	// Bind the environment variables
 	viper.BindEnv("library", "AUTOPILOT_LIBRARY")
 
+	rootCmd.AddCommand(addItemCmd)
 	rootCmd.AddCommand(addCmd)
 }

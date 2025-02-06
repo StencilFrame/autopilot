@@ -95,7 +95,7 @@ func init() {
 	fzfCmd.Flags().StringP("library", "l", expandedPath, "Library file. Environment variable: AUTOPILOT_LIBRARY")
 
 	// Bind the environment variables to the flags
-	flags := addCmd.Flags()
+	flags := addItemCmd.Flags()
 
 	// Bind Library flag
 	if err := viper.BindPFlag("library", flags.Lookup("library")); err != nil {
