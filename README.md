@@ -66,6 +66,7 @@ AutoPilot is built to address the challenges of full-scale automation, which can
 - **Gradual Automation:** Automate one step at a time, ensuring each part works perfectly before moving on.
 - **User-Friendly CLI:** Intuitive command-line interface for executing runbooks
 - **Cross-Platform Support:** Compatibile with Windows, macOS, and Linux
+- **Library Management:** Store and retrieve reusable commands
 
 ## Roadmap
 
@@ -131,7 +132,8 @@ Markdown runbooks are defined by listing ordered steps with instructions and cod
 AutoPilot extracts the first ordered list in the file as the runbook steps. If there are multiple ordered lists, only the first one is considered.
 
 AutoPilot supports and detects two types of steps: manual and shell (automatic).
-If a step has a code block, it's considered a shell step; otherwise, it's a manual step.
+If a step has a fenced code block with `sh` syntax highlighting, it's considered a shell step;
+otherwise, it's a manual step.
 
 ##### Example
 
@@ -141,8 +143,14 @@ If a step has a code block, it's considered a shell step; otherwise, it's a manu
 1. Initialize the environment (this is a manual step)
    Ensure all prerequisites are installed.
 2. Run setup script (this is an automatic step)
-   ```
+   ```sh
    ./setup.sh
+   ```
+3. Run something else (this is a manual step)
+
+   Run this command:
+   ```
+   ./something_else.sh
    ```
 ~~~
 
@@ -184,12 +192,41 @@ steps:
 To execute a runbook, use the `autopilot` command followed by the runbook file:
 
 ```sh
-./autopilot run runbook.md
+autopilot run runbook.md
 ```
 
 Runbook types are automatically detected based on the file extension:
 - `.md` files are considered Markdown runbooks.
 - `.yml` or `.yaml` files are considered YAML runbooks.
+
+### Add a New Item to the Library
+
+To add a new command to the library, use the `add` command:
+
+```sh
+autopilot add !!
+```
+
+This command will launch the editor to edit the command details.
+
+### Fuzzy Find an Item in the Library
+
+To fuzzy find an item in the library, use the `fzf` command:
+
+```sh
+autopilot fzf
+```
+
+This command will launch a fuzzy finder to select an item from the library. The matched item will be printed to the standard output.
+
+You configure a custom keybinding to launch the fuzzy finder in your ZSH shell configuration:
+
+Add the following line to your `.zshrc` file:
+```sh
+source <(autopilot zsh)
+```
+
+Then, you can use the `^G` keybinding to launch the fuzzy finder.
 
 ## Contributing
 
