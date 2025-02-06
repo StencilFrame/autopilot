@@ -7,7 +7,8 @@ import (
 	"os"
 	"strings"
 
-	"github.com/russross/blackfriday/v2"
+	"github.com/gomarkdown/markdown/ast"
+	"github.com/gomarkdown/markdown/parser"
 )
 
 type (
@@ -33,15 +34,16 @@ func (m *Markdown) Parse(fileName string) []step.Step {
 	}
 
 	// Parse the markdown file and populate the steps
-	parser := blackfriday.New(blackfriday.WithExtensions(blackfriday.CommonExtensions))
-	ast := parser.Parse(data)
+	extensions := parser.CommonExtensions | parser.AutoHeadingIDs | parser.NoEmptyLineBeforeBlock
+	p := parser.NewWithExtensions(extensions)
+	rootNode := p.Parse(data)
 
 	// Walk through the AST nodes to extract the first ordered list items.
-	ast.Walk(func(node *blackfriday.Node, entering bool) blackfriday.WalkStatus {
+	ast.WalkFunc(rootNode, func(node ast.Node, entering bool) ast.WalkStatus {
 		// Check if the node is a List and it's an ordered list.
-		if node.Type == blackfriday.List && node.ListFlags&blackfriday.ListTypeOrdered != 0 {
+		if list, ok := node.(*ast.List); ok && entering && list.ListFlags&ast.ListTypeOrdered != 0 {
 			// Iterate over each list item in the ordered list.
-			for item := node.FirstChild; item != nil; item = item.Next {
+			for _, item := range list.Children {
 				// Extract the text content of the list item.
 				text, code := extractText(item)
 				if code != "" {
@@ -51,9 +53,9 @@ func (m *Markdown) Parse(fileName string) []step.Step {
 				}
 			}
 			// Stop processing the AST because we found the first ordered list.
-			return blackfriday.Terminate
+			return ast.Terminate
 		}
-		return blackfriday.GoToNext
+		return ast.GoToNext
 	})
 
 	return m.steps
@@ -90,21 +92,47 @@ func (m *Markdown) Steps() []step.Step {
 }
 
 // extractText helper function for extracting plain text from a node
-func extractText(node *blackfriday.Node) (text string, code string) {
+func extractText(node ast.Node) (text string, code string) {
 	var buffer bytes.Buffer
 	var codeBlock bytes.Buffer
-	node.Walk(func(n *blackfriday.Node, entering bool) blackfriday.WalkStatus {
-		literal := bytes.TrimSpace(n.Literal)
-		if n.Type == blackfriday.Code || n.Type == blackfriday.CodeBlock {
-			codeBlock.Write(literal)
-			return blackfriday.GoToNext
+	ast.WalkFunc(node, func(n ast.Node, entering bool) ast.WalkStatus {
+		if !entering {
+			return ast.GoToNext
+		}
+
+		literal := bytes.TrimSpace([]byte(getContent(n)))
+		if block, ok := n.(*ast.CodeBlock); ok {
+			if block.Info != nil && bytes.Equal(block.Info, []byte("sh")) {
+				codeBlock.Write(literal)
+				return ast.GoToNext
+			}
 		}
 		if len(literal) > 0 {
 			buffer.Write(literal)
 			buffer.WriteString("\n")
 		}
-		return blackfriday.GoToNext
+		return ast.GoToNext
 	})
-	buffer.Truncate(buffer.Len() - 1) // Remove the trailing newline
+	if buffer.Len() > 0 {
+		buffer.Truncate(buffer.Len() - 1) // Remove the trailing newline
+	}
 	return buffer.String(), codeBlock.String()
+}
+
+func getContent(node ast.Node) string {
+	if c := node.AsContainer(); c != nil {
+		return contentToString(c.Literal, c.Content)
+	}
+	leaf := node.AsLeaf()
+	return contentToString(leaf.Literal, leaf.Content)
+}
+
+func contentToString(d1 []byte, d2 []byte) string {
+	if d1 != nil {
+		return string(d1)
+	}
+	if d2 != nil {
+		return string(d2)
+	}
+	return ""
 }

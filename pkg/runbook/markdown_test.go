@@ -19,8 +19,12 @@ func TestMarkdown_Parse(t *testing.T) {
    Additional information about step 2
 3. Step 3: Do something else
    Additional information about step 3
-4. Step 4: Do something automatically
+4. Step 4: Do something still manually
    ` + "```" + `
+   echo "Hello, world!"
+   ` + "```" + `
+5. Step 5: Do something automatically
+   ` + "```sh" + `
    echo "Hello, world!"
    ` + "```" + `
 
@@ -46,7 +50,8 @@ Additional information about the runbook
 		"[Manual] Step 1: Initialize the environment\n",
 		"[Manual] Step 2: Do something\n\nAdditional information about step 2",
 		"[Manual] Step 3: Do something else\n\nAdditional information about step 3",
-		"[Shell] Step 4: Do something automatically\n\nRunning command: echo \"Hello, world!\"",
+		"[Manual] Step 4: Do something still manually\n\necho \"Hello, world!\"",
+		"[Shell] Step 5: Do something automatically\n\nRunning command: echo \"Hello, world!\"",
 	}
 
 	require.Equal(t, len(expectedSteps), len(steps))
@@ -67,8 +72,12 @@ func TestMarkdown_Steps(t *testing.T) {
    Additional information about step 2
 3. Step 3: Do something else
    Additional information about step 3
-4. Step 4: Do something automatically
+4. Step 4: Do something still manually
    ` + "```" + `
+   echo "Hello, world!"
+   ` + "```" + `
+5. Step 5: Do something automatically
+   ` + "```sh" + `
    echo "Hello, world!"
    ` + "```" + `
 `
@@ -86,7 +95,7 @@ func TestMarkdown_Steps(t *testing.T) {
 
 	// Validate the parsed steps
 	steps := md.Steps()
-	require.Equal(t, 4, len(steps))
+	require.Equal(t, 5, len(steps))
 
 	step1, ok := steps[0].(*step.ManualStep)
 	require.True(t, ok, "step is not a ManualStep")
@@ -106,9 +115,15 @@ func TestMarkdown_Steps(t *testing.T) {
 	assert.Equal(t, "Step 3: Do something else", step3.Name())
 	assert.Equal(t, "Additional information about step 3", step3.Instructions)
 
-	step4, ok := steps[3].(*step.ShellStep)
-	require.True(t, ok, "step is not a ShellStep")
+	step4, ok := steps[3].(*step.ManualStep)
+	require.True(t, ok, "step is not a ManualStep")
 	assert.Equal(t, "step-4", step4.ID())
-	assert.Equal(t, "Step 4: Do something automatically", step4.Name())
-	assert.Equal(t, "echo \"Hello, world!\"", step4.Command)
+	assert.Equal(t, "Step 4: Do something still manually", step4.Name())
+	assert.Equal(t, "echo \"Hello, world!\"", step4.Instructions)
+
+	step5, ok := steps[4].(*step.ShellStep)
+	require.True(t, ok, "step is not a ShellStep")
+	assert.Equal(t, "step-5", step5.ID())
+	assert.Equal(t, "Step 5: Do something automatically", step5.Name())
+	assert.Equal(t, "echo \"Hello, world!\"", step5.Command)
 }
