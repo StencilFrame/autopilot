@@ -8,7 +8,11 @@ Inspired by [Do Nothing Scripting](https://blog.danslimmon.com/2019/07/15/do-not
 
 If you want to read more about the design and idea behind AutoPilot, check out the [idea document](docs/IDEA.md).
 
+## Demo of running a runbook
 ![demo](./examples/demo.gif)
+
+## Demo of adding a command to the library and using fuzzy finder to find it later
+![library demo](./examples/demo-library.gif)
 
 ## Purpose and Real-Life Examples
 
