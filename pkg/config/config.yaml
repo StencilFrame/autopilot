@@ -1,0 +1,16 @@
+# Library configuration file (WIP)
+
+# Library files used for the library discovery
+# Patterns might contain wildcards and sub-directories (for example, docs/*.md)
+library_files: |
+  LIBRARY.md
+
+# Whether to check parent directories for library files
+# If true, all parent directories will be checked for library files
+recursive_find: true
+
+# System libraries defined in the system wide library files
+# System libraries should be defined using absolute paths
+# Patterns might contain wildcards
+system_libraries: |
+  ~/LIBRARY.md
